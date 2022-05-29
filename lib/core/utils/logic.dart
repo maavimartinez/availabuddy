@@ -46,11 +46,11 @@ mixin Logic {
     table2.style.width = '100%';
     var tBody2 = table2.createTBody();
 
-    // table2.tHead!.insertRow(-1)
-    //   ..insertCell(0).nodes.add(TableEle  .tag('th')..text = '1')
-    //   ..insertCell(1).nodes.add(Element.tag('th')..text = '2')
-    //   ..insertCell(2).nodes.add(Element.tag('th')..text = '3')
-    //   ..insertCell(3).nodes.add(Element.tag('th')..text = '4');
+    tBody2.insertRow(0)
+      ..insertCell(0).text = 'Date'
+      ..insertCell(1).text = 'Start Time'
+      ..insertCell(2).text = 'End Time'
+      ..insertCell(3).text = 'Time Zone';
     for (int i = 0; i < list.length; i++) {
       final date = DateHelper.format(list[i]['date'], 'MM/dd');
       final startTime = DateHelper.format(list[i]['start_time'],
@@ -58,7 +58,7 @@ mixin Logic {
       final endTime = DateHelper.format(list[i]['end_time'],
           list[i]['is_standard_format'] ? 'hh:mm a' : 'HH:mm');
 
-      tBody2.insertRow(i)
+      tBody2.insertRow(i + 1)
         ..insertCell(0).text = date
         ..insertCell(1).text = startTime
         ..insertCell(2).text = endTime
