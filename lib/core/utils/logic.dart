@@ -42,7 +42,7 @@ mixin Logic {
 
   static String listToText(
       BuildContext context, List<Map<String, dynamic>> list) {
-    String ret = '---------------------------------------------------\n';
+    String ret = '';
     for (int i = 0; i < list.length; i++) {
       final date = DateHelper.format(list[i]['date'], 'MM/dd');
       final startTime = DateHelper.format(list[i]['start_time'],
@@ -50,9 +50,8 @@ mixin Logic {
       final endTime = DateHelper.format(list[i]['end_time'],
           list[i]['is_standard_format'] ? 'hh:mm a' : 'HH:mm');
       ret +=
-          '| $date | $startTime | $endTime | ${list[0]['time_zone_code']} |\n';
+          '$date   $startTime  -  $endTime   ${list[0]['time_zone_code']} \n';
     }
-    ret += '---------------------------------------------------\n';
     return ret;
     // TableElement table2 = TableElement();
     // table2.style.width = '100%';

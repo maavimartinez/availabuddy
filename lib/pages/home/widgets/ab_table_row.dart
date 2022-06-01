@@ -1,5 +1,4 @@
 import 'package:availabuddy/core/essentials/colors.dart';
-import 'package:availabuddy/core/essentials/textstyles.dart';
 import 'package:availabuddy/core/essentials/timezones.dart';
 import 'package:availabuddy/core/widgets/date_field.dart';
 import 'package:availabuddy/core/widgets/time_field.dart';

@@ -41,7 +41,7 @@ class AbColors {
   static const Color lighterBlue = Color(0xFFE1F5FE);
 
   static const Color lightGreen = Color(0xFF8DC63F);
-  static const Color green = Color(0xFF0B8F5B);
+  static const Color green = Color.fromRGBO(16, 167, 3, 1);
   static const Color greenGray = Color(0xFF7E8D92);
   static const Color lightAqua = Color(0xFFF0FFF9);
   static const Color blueGreen = Color(0xFF6DBC9C);

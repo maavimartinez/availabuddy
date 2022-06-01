@@ -1,4 +1,3 @@
-import 'package:availabuddy/core/essentials/textstyles.dart';
 import 'package:availabuddy/pages/home/widgets/datetime_table.dart';
 import 'package:flutter/material.dart';
 
@@ -11,9 +10,13 @@ class HomeScreen extends StatelessWidget {
         appBar: AppBar(
           automaticallyImplyLeading: false,
           elevation: 0,
-          title: Text('Availabuddy', style: AbTextStyles.black22w600),
+          title: Image.asset('assets/images/logo.png', width: 200),
         ),
-        body: const Center(
-            child: SizedBox(width: 500, height: 800, child: DateTimeTable())));
+        body: Center(
+            child: Container(
+                padding: const EdgeInsets.only(top: 20),
+                width: 500,
+                height: 800,
+                child: const DateTimeTable())));
   }
 }
