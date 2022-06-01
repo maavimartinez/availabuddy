@@ -24,7 +24,7 @@ class _DateTimeTableState extends State<DateTimeTable> {
   final List<AbTimezone> timezones = <AbTimezone>[];
   late AbTimezone expectedTimezone;
   final Duration timezoneDifference = Duration.zero;
-  String selectedTimeFormat = 'ST';
+  String selectedTimeFormat = 'Standard Time';
   bool isStandardFormat = true;
 
   @override
@@ -50,11 +50,8 @@ class _DateTimeTableState extends State<DateTimeTable> {
         const SizedBox(height: 20),
         Row(children: [
           SizedBox(
-            width: MediaQuery.of(context).size.width * 0.2,
-            child: Text(
-              'Format',
-              style: AbTextStyles.black13w600,
-            ),
+            width: MediaQuery.of(context).size.width * 0.24,
+            child: Text('Format', style: AbTextStyles.black13w600),
           ),
           const SizedBox(width: 15),
           SizedBox(
@@ -71,16 +68,16 @@ class _DateTimeTableState extends State<DateTimeTable> {
           children: [
             Row(children: [
               AbDropdown(
-                  width: MediaQuery.of(context).size.width * 0.2,
+                  width: MediaQuery.of(context).size.width * 0.24,
                   value: selectedTimeFormat,
                   placeholder: 'Time format',
                   onChanged: (String value) {
                     setState(() {
                       selectedTimeFormat = value;
-                      isStandardFormat = value == 'ST';
+                      isStandardFormat = value == 'Standard Time';
                     });
                   },
-                  items: const ['ST', 'MT']),
+                  items: const ['Standard Time', 'Military Time']),
               const SizedBox(width: 15),
               AbTimezoneDropdown(
                   value: expectedTimezone,
@@ -95,7 +92,12 @@ class _DateTimeTableState extends State<DateTimeTable> {
                       borderRadius: BorderRadius.circular(8)),
                   width: MediaQuery.of(context).size.width * 0.2)
             ]),
-            AbElevatedButton('Create list', fullWidth: false, onPressed: () {
+            AbElevatedButton('Create list',
+                fullWidth: false,
+                size: Size(MediaQuery.of(context).size.width * 0.3, 60),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                onPressed: () {
               final aux = Logic.createDateList(
                   dates: dates,
                   isStandardFormat: isStandardFormat,

@@ -42,30 +42,42 @@ mixin Logic {
 
   static String listToText(
       BuildContext context, List<Map<String, dynamic>> list) {
-    TableElement table2 = TableElement();
-    table2.style.width = '100%';
-    var tBody2 = table2.createTBody();
-
-    tBody2.insertRow(0)
-      ..insertCell(0).text = 'Date'
-      ..insertCell(1).text = 'Start Time'
-      ..insertCell(2).text = 'End Time'
-      ..insertCell(3).text = 'Time Zone';
+    String ret = '---------------------------------------------------\n';
     for (int i = 0; i < list.length; i++) {
       final date = DateHelper.format(list[i]['date'], 'MM/dd');
       final startTime = DateHelper.format(list[i]['start_time'],
           list[i]['is_standard_format'] ? 'hh:mm a' : 'HH:mm');
       final endTime = DateHelper.format(list[i]['end_time'],
           list[i]['is_standard_format'] ? 'hh:mm a' : 'HH:mm');
-
-      tBody2.insertRow(i + 1)
-        ..insertCell(0).text = date
-        ..insertCell(1).text = startTime
-        ..insertCell(2).text = endTime
-        ..insertCell(3).text = list[0]['time_zone_code'];
+      ret +=
+          '| $date | $startTime | $endTime | ${list[0]['time_zone_code']} |\n';
     }
+    ret += '---------------------------------------------------\n';
+    return ret;
+    // TableElement table2 = TableElement();
+    // table2.style.width = '100%';
+    // var tBody2 = table2.createTBody();
 
-    return table2.outerHtml ?? '';
+    // tBody2.insertRow(0)
+    //   ..insertCell(0).text = 'Date'
+    //   ..insertCell(1).text = 'Start Time'
+    //   ..insertCell(2).text = 'End Time'
+    //   ..insertCell(3).text = 'Time Zone';
+    // for (int i = 0; i < list.length; i++) {
+    //   final date = DateHelper.format(list[i]['date'], 'MM/dd');
+    //   final startTime = DateHelper.format(list[i]['start_time'],
+    //       list[i]['is_standard_format'] ? 'hh:mm a' : 'HH:mm');
+    //   final endTime = DateHelper.format(list[i]['end_time'],
+    //       list[i]['is_standard_format'] ? 'hh:mm a' : 'HH:mm');
+
+    //   tBody2.insertRow(i + 1)
+    //     ..insertCell(0).text = date
+    //     ..insertCell(1).text = startTime
+    //     ..insertCell(2).text = endTime
+    //     ..insertCell(3).text = list[0]['time_zone_code'];
+    //}
+
+    //return table2.outerHtml ?? '';
   }
 
   static getOffsetDuration(Duration myOffset, Duration desiredOffset) {
