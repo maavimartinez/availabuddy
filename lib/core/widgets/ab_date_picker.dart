@@ -51,6 +51,7 @@ class AbDatePickerWidget extends StatelessWidget {
       firstDate: DateTime.now(),
       onDateChanged: (date) {
         onChange(date);
+        Navigator.of(context).pop();
       },
     );
   }

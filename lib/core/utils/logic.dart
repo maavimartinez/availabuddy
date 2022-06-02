@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:availabuddy/core/essentials/date_helper.dart';
 import 'package:availabuddy/core/essentials/timezones.dart';
 import 'package:flutter/material.dart';

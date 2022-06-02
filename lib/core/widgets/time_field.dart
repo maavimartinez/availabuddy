@@ -1,3 +1,4 @@
+import 'package:availabuddy/core/essentials/colors.dart';
 import 'package:availabuddy/core/essentials/textstyles.dart';
 import 'package:flutter/material.dart';
 
@@ -44,7 +45,7 @@ class TimeField extends StatelessWidget {
           values.add({
             "display": (i < 10 ? '0$i' : i.toString()) +
                 ':' +
-                (i < 10 ? '0$j' : j.toString()),
+                (j < 10 ? '0$j' : j.toString()),
             "value": TimeOfDay(hour: i + 12, minute: j),
           });
         }
@@ -54,6 +55,7 @@ class TimeField extends StatelessWidget {
       builder: (FormFieldState<String> state) {
         return InputDecorator(
           decoration: InputDecoration(
+              contentPadding: const EdgeInsets.symmetric(horizontal: 5),
               labelStyle: AbTextStyles.black14w500,
               errorStyle: AbTextStyles.red14w400,
               hintText: 'Please select a time',
@@ -61,6 +63,9 @@ class TimeField extends StatelessWidget {
           isEmpty: time == null,
           child: DropdownButtonHideUnderline(
             child: DropdownButton<TimeOfDay>(
+              iconEnabledColor: AbColors.primary,
+              icon: const Icon(Icons.keyboard_arrow_down),
+              iconDisabledColor: AbColors.lightGray,
               value: time,
               isDense: true,
               onChanged: (TimeOfDay? newTime) {

@@ -178,9 +178,8 @@ class _DateTimeTableState extends State<DateTimeTable> {
           timezones.add(
               AbTimezoneHelper.findTimezone(DateTime.now().timeZoneOffset));
           dates.add(DateTime.now());
-          startTimes.add(TimeOfDay.now());
-          endTimes.add(TimeOfDay.fromDateTime(
-              DateTime.now().add(const Duration(hours: 1))));
+          startTimes.add(TimeOfDay(hour: TimeOfDay.now().hour, minute: 00));
+          endTimes.add(TimeOfDay(hour: TimeOfDay.now().hour + 1, minute: 00));
         });
       });
     } else {
