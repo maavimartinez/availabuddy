@@ -107,9 +107,11 @@ class _DateTimeTableState extends State<DateTimeTable> {
               final text = Logic.listToText(context, aux);
 
               Clipboard.setData(ClipboardData(text: text));
-            })
+            }),
           ],
-        )
+        ),
+        const SizedBox(height: 15),
+        const SizedBox(height: 15),
       ],
     ));
   }

@@ -5,9 +5,19 @@
     "content_security_policy": {
         "extension_pages": "script-src 'self' ; object-src 'self'"
     },
+    "icons": {
+        "48": "icons/Icon-48.png"
+    },
     "action": {
         "default_popup": "index.html",
-        "default_icon": "icons/Icon-192.png"
+        "default_icon": "icons/Icon-192.png",
+        "48": "icons/Icon-48.png"
     },
+    "host_permissions": [
+        "https://timeapi.io/api/TimeZone/*"
+    ],
+    "permissions": [
+        "identity"
+    ],
     "manifest_version": 3
 }

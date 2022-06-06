@@ -12,7 +12,8 @@ class AbColors {
     return Color(int.parse(buffer.toString(), radix: 16));
   }
 
-  static const Color primary = Color(0xFF0B8F5B);
+  static const Color primary =
+      Color.fromRGBO(16, 167, 3, 1); // Color(0xFF0B8F5B);
   static const Color accent = Color(0xFF999999);
 
   static const Color black = Color(0xFF0D0D0D);

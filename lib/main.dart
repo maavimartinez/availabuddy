@@ -1,8 +1,10 @@
 import 'package:availabuddy/core/essentials/colors.dart';
+import 'package:availabuddy/core/essentials/timezones.dart';
 import 'package:availabuddy/pages/home/home_screen.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async {
+  AbTimezoneHelper.initializeTimeZones();
   runApp(const Availabuddy());
 }
 
