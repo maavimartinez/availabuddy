@@ -34,21 +34,29 @@ class AbTimezoneHelper {
   }
 
   static Future<Duration> _getTimezoneOffset({required String name}) async {
-    var dio = Dio();
-    final response =
-        await dio.get('https://timeapi.io/api/TimeZone/zone?timeZone=$name',
-            options: Options(
-              headers: {
-                "Access-Control-Allow-Methods": "*",
-                "Access-Control-Allow-Headers":
-                    "'Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token'",
-                'Access-Control-Allow-Origin': '*',
-                'Content-Type': 'application/json',
-              },
-            ));
-    final data = response.data;
-    final offsetInSeconds = data['currentUtcOffset']['seconds'];
-    return Duration(seconds: offsetInSeconds);
+    try {
+      var dio = Dio();
+      final response =
+          await dio.get('https://timeapi.io/api/TimeZone/zone?timeZone=$name',
+              options: Options(
+                headers: {
+                  "Access-Control-Allow-Methods": "*",
+                  "Access-Control-Allow-Headers":
+                      "'Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token'",
+                  'Access-Control-Allow-Origin': '*',
+                  'Content-Type': 'application/json',
+                },
+              ));
+      final data = response.data;
+      final offsetInSeconds = data['currentUtcOffset']['seconds'];
+      return Duration(seconds: offsetInSeconds);
+    } catch (err) {
+      return abTimezones
+          .where((element) => element.name == name)
+          .toList()
+          .first
+          .offset;
+    }
   }
 }
 

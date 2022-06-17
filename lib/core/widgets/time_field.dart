@@ -20,7 +20,7 @@ class TimeField extends StatelessWidget {
       for (var i = 1; i < 13; i++) {
         for (var j = 0; j < 46; j = j + 15) {
           values.add({
-            "display": (i < 10 ? '0$i' : i.toString()) +
+            "display": i.toString() +
                 ':' +
                 (j < 10 ? '0$j' : j.toString()) +
                 (i == 12 ? ' PM' : ' AM'),
@@ -31,7 +31,7 @@ class TimeField extends StatelessWidget {
       for (var i = 1; i < 13; i++) {
         for (var j = 0; j < 46; j = j + 15) {
           values.add({
-            "display": (i < 10 ? '0$i' : i.toString()) +
+            "display": i.toString() +
                 ':' +
                 (j < 10 ? '0$j' : j.toString()) +
                 (i == 12 ? ' AM' : ' PM'),
@@ -43,9 +43,7 @@ class TimeField extends StatelessWidget {
       for (var i = 0; i < 24; i++) {
         for (var j = 0; j < 46; j = j + 15) {
           values.add({
-            "display": (i < 10 ? '0$i' : i.toString()) +
-                ':' +
-                (j < 10 ? '0$j' : j.toString()),
+            "display": i.toString() + ':' + (j < 10 ? '0$j' : j.toString()),
             "value": TimeOfDay(hour: i + 12, minute: j),
           });
         }
@@ -84,19 +82,5 @@ class TimeField extends StatelessWidget {
         );
       },
     );
-    // return InkWell(
-    //     onTap: () async {
-    //       final TimeOfDay? newTime = await showTimePicker(
-    //         context: context,
-    //         initialTime: time,
-    //       );
-    //       if (newTime != null) {
-    //         setTime(newTime);
-    //       }
-    //     },
-    //     child: Center(
-    //         child: Text(
-    //             DateHelper.formatTimeOfDay(context, time, isStandardFormat),
-    //             style: AbTextStyles.black14w500)));
   }
 }
