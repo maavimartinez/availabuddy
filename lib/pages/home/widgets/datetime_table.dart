@@ -34,20 +34,14 @@ class _DateTimeTableState extends State<DateTimeTable> {
   @override
   void initState() {
     SharedPreferences.getInstance().then((value) {
-      //value.clear();
       final stringDates = value.getStringList('dates') ?? [];
       final startTimesString = value.getStringList('startTimes') ?? [];
       final endTimesString = value.getStringList('endTimes') ?? [];
       final timezonesString = value.getStringList('timezones') ?? [];
       final expectedTimezoneString =
           value.getString('expectedTimezone') ?? 'EST';
-      print(
-          '🤖🤖🤖🤖🤖🤖 🤖🤖🤖🤖🤖🤖 🤖🤖🤖🤖🤖🤖 🤖🤖🤖🤖🤖🤖 🤖🤖🤖🤖🤖🤖 🤖🤖🤖🤖🤖🤖 ');
-      print(stringDates);
-      print(startTimesString);
+      final isStandard = value.getBool('isStandardFormat') ?? true;
       print(endTimesString);
-      print(
-          '🤖🤖🤖🤖🤖🤖 🤖🤖🤖🤖🤖🤖 🤖🤖🤖🤖🤖🤖 🤖🤖🤖🤖🤖🤖 🤖🤖🤖🤖🤖🤖 🤖🤖🤖🤖🤖🤖 ');
       setState(() {
         sharedPreferences = value;
         dates = stringDates.isEmpty
@@ -78,6 +72,8 @@ class _DateTimeTableState extends State<DateTimeTable> {
         expectedTimezone = abTimezones
             .where((element) => expectedTimezoneString == element.code)
             .first;
+        isStandardFormat = isStandard;
+        selectedTimeFormat = isStandard ? 'Standard Time' : 'Military Time';
       });
     });
 
@@ -87,86 +83,91 @@ class _DateTimeTableState extends State<DateTimeTable> {
   @override
   Widget build(BuildContext context) {
     if (sharedPreferences == null) {
-      return CircularProgressIndicator();
-    }
-    return SingleChildScrollView(
-        child: Column(
-      children: [
-        _table(),
-        const SizedBox(height: 20),
-        _addDateButton(),
-        const SizedBox(height: 20),
-        Row(children: [
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.24,
-            child: Text('Format', style: AbTextStyles.black13w600),
-          ),
-          const SizedBox(width: 15),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.2,
-            child: Text(
-              'To time zone',
-              style: AbTextStyles.black13w600,
+      return const CircularProgressIndicator();
+    } else {
+      return SingleChildScrollView(
+          child: Column(
+        children: [
+          _table(),
+          const SizedBox(height: 20),
+          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            _clearButton(),
+            _addDateButton(),
+          ]),
+          const SizedBox(height: 20),
+          Row(children: [
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.24,
+              child: Text('Format', style: AbTextStyles.black13w600),
             ),
-          )
-        ]),
-        const SizedBox(height: 5),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(children: [
-              AbDropdown(
-                  width: MediaQuery.of(context).size.width *
-                      0.1, //* 0.24, //change
-                  value: selectedTimeFormat,
-                  placeholder: 'Time format',
-                  onChanged: (String value) {
-                    setState(() {
-                      selectedTimeFormat = value;
-                      isStandardFormat = value == 'Standard Time';
-                    });
-                  },
-                  items: const ['Standard Time', 'Military Time']), //change
-              const SizedBox(width: 15),
-              AbTimezoneDropdown(
-                  value: expectedTimezone,
-                  placeholder: 'Time Zone',
-                  onChanged: (AbTimezone timezone) {
-                    setState(() {
-                      expectedTimezone = timezone;
-                      sharedPreferences?.setString(
-                          'expectedTimezone', timezone.code);
-                    });
-                  },
-                  decoration: BoxDecoration(
-                      border: Border.all(color: AbColors.primary),
-                      borderRadius: BorderRadius.circular(8)),
-                  width: MediaQuery.of(context).size.width * 0.1) //chanfe
-            ]),
-            AbElevatedButton('Create list',
-                fullWidth: false,
-                size:
-                    Size(MediaQuery.of(context).size.width * 0.2, 60), //change
-                padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                onPressed: () {
-              final aux = Logic.createDateList(
-                  dates: dates,
-                  isStandardFormat: isStandardFormat,
-                  startTimes: startTimes,
-                  endTimes: endTimes,
-                  timezones: timezones,
-                  expectedTimezone: expectedTimezone);
-              final text = Logic.listToText(context, aux);
+            const SizedBox(width: 15),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.2,
+              child: Text(
+                'To Time Zone',
+                style: AbTextStyles.black13w600,
+              ),
+            )
+          ]),
+          const SizedBox(height: 5),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(children: [
+                AbDropdown(
+                    width: MediaQuery.of(context).size.width * 0.24, //change
+                    value: selectedTimeFormat,
+                    placeholder: 'Time Format',
+                    onChanged: (String value) {
+                      setState(() {
+                        selectedTimeFormat = value;
+                        isStandardFormat = value == 'Standard Time';
+                        sharedPreferences?.setBool(
+                            'isStandardFormat', value == 'Standard Time');
+                      });
+                    },
+                    items: const ['Standard Time', 'Military Time']), //change
+                const SizedBox(width: 15),
+                AbTimezoneDropdown(
+                    value: expectedTimezone,
+                    placeholder: 'Time Zone',
+                    onChanged: (AbTimezone timezone) {
+                      setState(() {
+                        expectedTimezone = timezone;
+                        sharedPreferences?.setString(
+                            'expectedTimezone', timezone.code);
+                      });
+                    },
+                    decoration: BoxDecoration(
+                        border: Border.all(color: AbColors.primary),
+                        borderRadius: BorderRadius.circular(8)),
+                    width: MediaQuery.of(context).size.width * 0.2) //chanfe
+              ]),
+              AbElevatedButton('Create List',
+                  fullWidth: false,
+                  size: Size(
+                      MediaQuery.of(context).size.width * 0.3, 60), //change
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                  onPressed: () {
+                final aux = Logic.createDateList(
+                    dates: dates,
+                    isStandardFormat: isStandardFormat,
+                    startTimes: startTimes,
+                    endTimes: endTimes,
+                    timezones: timezones,
+                    expectedTimezone: expectedTimezone);
+                final text = Logic.listToText(context, aux);
 
-              Clipboard.setData(ClipboardData(text: text));
-            }),
-          ],
-        ),
-        const SizedBox(height: 15),
-        const SizedBox(height: 15),
-      ],
-    ));
+                Clipboard.setData(ClipboardData(text: text));
+              }),
+            ],
+          ),
+          const SizedBox(height: 15),
+          const SizedBox(height: 15),
+        ],
+      ));
+    }
   }
 
   Widget _table() {
@@ -178,9 +179,9 @@ class _DateTimeTableState extends State<DateTimeTable> {
         children: [
           AbTableHeaderRow(context, labels: const [
             'Date',
-            'Start time',
-            'End time',
-            'Timezone',
+            'Start Time',
+            'End Time',
+            'Time Zone',
             'Delete'
           ]),
           for (int i = 0; i < dates.length; i++)
@@ -237,10 +238,39 @@ class _DateTimeTableState extends State<DateTimeTable> {
 
   Widget _addDateButton() {
     if (dates.length < 7) {
-      return AbElevatedButton('+ Add time', onPressed: addDate);
+      return AbElevatedButton(
+        '+ Add Time',
+        onPressed: addDate,
+        fullWidth: false,
+        size: Size(MediaQuery.of(context).size.width * 0.6, 60),
+      );
     } else {
       return Container();
     }
+  }
+
+  Widget _clearButton() {
+    return AbElevatedButton('Clear Data',
+        fullWidth: false,
+        size: Size(MediaQuery.of(context).size.width * 0.2, 60),
+        color: Colors.red[900],
+        borderColor: Colors.red[900], onPressed: () {
+      final expectedTimezone =
+          sharedPreferences?.getString('expectedTimezone') ?? 'EST';
+      sharedPreferences?.clear();
+      sharedPreferences?.setString('expectedTimezone', expectedTimezone);
+      setState(() {
+        dates.clear();
+        dates.add(DateTime.now());
+        startTimes.clear();
+        startTimes.add(const TimeOfDay(hour: 12, minute: 00));
+        endTimes.clear();
+        endTimes.add(const TimeOfDay(hour: 13, minute: 00));
+        timezones.clear();
+        timezones
+            .add(abTimezones.where((element) => element.code == 'EST').first);
+      });
+    });
   }
 
   void deleteDate(int i) {
@@ -269,7 +299,7 @@ class _DateTimeTableState extends State<DateTimeTable> {
   void addDate() {
     setState(() {
       timezones
-          .add(AbTimezoneHelper.findTimezone(DateTime.now().timeZoneOffset));
+          .add(abTimezones.where((element) => element.code == 'EST').first);
       dates.add(DateTime.now());
       startTimes.add(TimeOfDay(hour: TimeOfDay.now().hour, minute: 00));
       endTimes.add(TimeOfDay(hour: TimeOfDay.now().hour + 1, minute: 00));

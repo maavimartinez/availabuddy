@@ -44,11 +44,12 @@ class TimeField extends StatelessWidget {
         for (var j = 0; j < 46; j = j + 15) {
           values.add({
             "display": i.toString() + ':' + (j < 10 ? '0$j' : j.toString()),
-            "value": TimeOfDay(hour: i + 12, minute: j),
+            "value": TimeOfDay(hour: i, minute: j),
           });
         }
       }
     }
+    print(time);
     return FormField<String>(
       builder: (FormFieldState<String> state) {
         return InputDecorator(
@@ -58,7 +59,7 @@ class TimeField extends StatelessWidget {
               errorStyle: AbTextStyles.red14w400,
               hintText: 'Please select a time',
               border: InputBorder.none),
-          isEmpty: time == null,
+          isEmpty: false,
           child: DropdownButtonHideUnderline(
             child: DropdownButton<TimeOfDay>(
               iconEnabledColor: AbColors.primary,
